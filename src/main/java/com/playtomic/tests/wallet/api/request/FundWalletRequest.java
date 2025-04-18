@@ -1,5 +1,7 @@
 package com.playtomic.tests.wallet.api.request;
 
+import jakarta.validation.constraints.Digits;
+import jakarta.validation.constraints.NotEmpty;
 import java.math.BigDecimal;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -10,6 +12,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class FundWalletRequest {
 
+  @Digits(integer = 36, fraction = 2)
   private BigDecimal amount;
-  private String cardNumber;
+
+  @NotEmpty private String cardNumber;
 }

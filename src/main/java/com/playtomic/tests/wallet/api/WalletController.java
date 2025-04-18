@@ -5,6 +5,10 @@ import com.playtomic.tests.wallet.api.request.FundWalletRequest;
 import com.playtomic.tests.wallet.api.response.WalletResponseDto;
 import com.playtomic.tests.wallet.respository.entity.WalletEntity;
 import com.playtomic.tests.wallet.service.WalletService;
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.ConstraintViolationException;
+import jakarta.validation.Validator;
+import java.util.Set;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -20,6 +24,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequiredArgsConstructor
 public class WalletController {
+
+  private final Validator validator;
   private final WalletService walletService;
   private Logger log = LoggerFactory.getLogger(WalletController.class);
 
@@ -31,6 +37,12 @@ public class WalletController {
   @PostMapping("/wallet")
   ResponseEntity<WalletResponseDto> createWallet(
       @RequestBody CreateWalletRequest createWalletRequest) {
+    Set<ConstraintViolation<CreateWalletRequest>> violations =
+        validator.validate(createWalletRequest);
+    if (!violations.isEmpty()) {
+      throw new ConstraintViolationException("invalid request", violations);
+    }
+
     WalletEntity wallet =
         walletService.createWallet(
             createWalletRequest.getUserId(), createWalletRequest.getCurrency());
@@ -46,6 +58,11 @@ public class WalletController {
   @PostMapping("/wallet/{id}/fund")
   ResponseEntity<WalletResponseDto> fundWallet(
       @PathVariable UUID id, @RequestBody FundWalletRequest fundWalletRequest) {
+    Set<ConstraintViolation<FundWalletRequest>> violations = validator.validate(fundWalletRequest);
+    if (!violations.isEmpty()) {
+      throw new ConstraintViolationException("invalid request", violations);
+    }
+
     WalletEntity wallet =
         walletService.fundWallet(
             id, fundWalletRequest.getAmount(), fundWalletRequest.getCardNumber());
