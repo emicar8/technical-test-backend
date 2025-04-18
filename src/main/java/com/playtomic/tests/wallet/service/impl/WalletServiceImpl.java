@@ -67,7 +67,14 @@ public class WalletServiceImpl implements WalletService {
 
     Payment payment = stripeService.charge(card, amount);
 
-    MovementEntity movementEntity = createMovementEntity(wallet, payment, amount);
+    MovementEntity movementEntity;
+    try {
+      movementEntity = createMovementEntity(wallet, payment, amount);
+    } catch (Exception ex) {
+      log.error("Error creating movement", ex);
+      stripeService.refund(payment.getId());
+      throw ex;
+    }
 
     try {
       updateBalance(wallet, amount);
