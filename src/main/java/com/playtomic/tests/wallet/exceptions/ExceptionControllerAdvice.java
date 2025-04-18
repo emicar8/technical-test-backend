@@ -1,5 +1,6 @@
 package com.playtomic.tests.wallet.exceptions;
 
+import com.playtomic.tests.wallet.service.stripe.StripeServiceException;
 import jakarta.validation.ConstraintViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -38,12 +39,21 @@ public class ExceptionControllerAdvice {
         new ErrorMessage(message, stringBuilder.toString()), HttpStatus.BAD_REQUEST);
   }
 
+    @ExceptionHandler(value = {StripeServiceException.class})
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    protected ResponseEntity<ErrorMessage> handleStripeServiceException(
+            Exception ex) {
+        String message = "error in stripe service";
+        String description = ex.getMessage();
+        return new ResponseEntity<>(new ErrorMessage(message, description), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
     @ExceptionHandler(value = {Exception.class})
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     protected ResponseEntity<ErrorMessage> handleGeneralExceptions(
             Exception ex) {
         String message = "unknown error";
-        String description = "internal server error";
+        String description = ex.getMessage();
         return new ResponseEntity<>(new ErrorMessage(message, description), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }
