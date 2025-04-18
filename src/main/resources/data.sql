@@ -1,0 +1,1 @@
+INSERT INTO currency (code, number) VALUES ('ARS', '032'), ('EUR', '978'), ('USD', '980')
