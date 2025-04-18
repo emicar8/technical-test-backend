@@ -37,4 +37,13 @@ public class ExceptionControllerAdvice {
     return new ResponseEntity<>(
         new ErrorMessage(message, stringBuilder.toString()), HttpStatus.BAD_REQUEST);
   }
+
+    @ExceptionHandler(value = {Exception.class})
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    protected ResponseEntity<ErrorMessage> handleGeneralExceptions(
+            Exception ex) {
+        String message = "unknown error";
+        String description = "internal server error";
+        return new ResponseEntity<>(new ErrorMessage(message, description), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 }
