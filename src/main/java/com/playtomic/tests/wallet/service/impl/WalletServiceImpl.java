@@ -27,7 +27,7 @@ public class WalletServiceImpl implements WalletService {
         currencyRepository.findAll(
             CurrencySpecs.filterByCode(currency).or(CurrencySpecs.filterByNumber(currency)));
     if (currencyEntityList.isEmpty()) {
-      throw new ResourceNotFoundException("Currency not found");
+      throw new ResourceNotFoundException("currency not found");
     }
 
     WalletEntity wallet =
@@ -45,6 +45,6 @@ public class WalletServiceImpl implements WalletService {
   public WalletEntity getWallet(UUID id) {
     return walletRepository
         .findById(id)
-        .orElseThrow(() -> new ResourceNotFoundException("Wallet not found"));
+        .orElseThrow(() -> new ResourceNotFoundException("wallet not found"));
   }
 }

@@ -4,10 +4,13 @@ import com.playtomic.tests.wallet.api.request.CreateWalletRequest;
 import com.playtomic.tests.wallet.api.response.WalletResponseDto;
 import com.playtomic.tests.wallet.respository.entity.WalletEntity;
 import com.playtomic.tests.wallet.service.WalletService;
+import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,6 +33,12 @@ public class WalletController {
     WalletEntity wallet =
         walletService.createWallet(
             createWalletRequest.getUserId(), createWalletRequest.getCurrency());
+    return ResponseEntity.ok(buildWalletResponseDto(wallet));
+  }
+
+  @GetMapping("/wallet/{id}")
+  ResponseEntity<WalletResponseDto> createWallet(@PathVariable UUID id) {
+    WalletEntity wallet = walletService.getWallet(id);
     return ResponseEntity.ok(buildWalletResponseDto(wallet));
   }
 
