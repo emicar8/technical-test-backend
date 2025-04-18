@@ -5,7 +5,7 @@ import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Converter;
 import java.util.Arrays;
 
-@Converter(autoApply = true)
+@Converter
 public class MovementStatusConverter implements AttributeConverter<MovementStatus, String> {
 
   @Override

@@ -1,11 +1,14 @@
 package com.playtomic.tests.wallet.service;
 
 import com.playtomic.tests.wallet.respository.entity.WalletEntity;
+import java.math.BigDecimal;
 import java.util.UUID;
 
 public interface WalletService {
 
-  public WalletEntity createWallet(Long userId, String currency);
+  WalletEntity createWallet(Long userId, String currency);
 
-  public WalletEntity getWallet(UUID id);
+  WalletEntity getWallet(UUID id);
+
+  WalletEntity fundWallet(UUID id, BigDecimal amount, String card);
 }

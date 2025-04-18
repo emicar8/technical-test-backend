@@ -1,6 +1,7 @@
 package com.playtomic.tests.wallet.api;
 
 import com.playtomic.tests.wallet.api.request.CreateWalletRequest;
+import com.playtomic.tests.wallet.api.request.FundWalletRequest;
 import com.playtomic.tests.wallet.api.response.WalletResponseDto;
 import com.playtomic.tests.wallet.respository.entity.WalletEntity;
 import com.playtomic.tests.wallet.service.WalletService;
@@ -39,6 +40,15 @@ public class WalletController {
   @GetMapping("/wallet/{id}")
   ResponseEntity<WalletResponseDto> createWallet(@PathVariable UUID id) {
     WalletEntity wallet = walletService.getWallet(id);
+    return ResponseEntity.ok(buildWalletResponseDto(wallet));
+  }
+
+  @PostMapping("/wallet/{id}/fund")
+  ResponseEntity<WalletResponseDto> fundWallet(
+      @PathVariable UUID id, @RequestBody FundWalletRequest fundWalletRequest) {
+    WalletEntity wallet =
+        walletService.fundWallet(
+            id, fundWalletRequest.getAmount(), fundWalletRequest.getCardNumber());
     return ResponseEntity.ok(buildWalletResponseDto(wallet));
   }
 
