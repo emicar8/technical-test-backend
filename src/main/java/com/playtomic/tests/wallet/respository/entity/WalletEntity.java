@@ -15,16 +15,16 @@ import lombok.Data;
 
 @Entity
 @Data
-@Table(name = "balance")
-public class BalanceEntity {
+@Table(name = "wallet")
+public class WalletEntity {
 
   @Id
   @GeneratedValue(strategy = GenerationType.UUID)
   private UUID id;
 
-  private BigDecimal amount;
+  private BigDecimal balance;
 
-  private BigDecimal availableAmount;
+  private BigDecimal availableBalance;
 
   private Long userId;
 

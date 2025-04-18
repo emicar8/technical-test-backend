@@ -27,6 +27,6 @@ public class MovementEntity {
   private MovementStatus status;
 
   @ManyToOne
-  @JoinColumn(name = "balance_id")
-  private BalanceEntity balance;
+  @JoinColumn(name = "wallet_id")
+  private WalletEntity wallet;
 }
