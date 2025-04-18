@@ -12,8 +12,10 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import java.math.BigDecimal;
 import java.util.UUID;
+import lombok.Data;
 
 @Entity
+@Data
 @Table(name = "movement")
 public class MovementEntity {
 
